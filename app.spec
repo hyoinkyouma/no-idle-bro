@@ -1,4 +1,8 @@
 # -*- mode: python ; coding: utf-8 -*-
+from PyInstaller.utils.hooks import collect_data_files
+
+datas = [('.\\icon.ico', '.')]
+datas += collect_data_files('sv_ttk')
 
 
 block_cipher = None
@@ -8,7 +12,7 @@ a = Analysis(
     ['app.py'],
     pathex=[],
     binaries=[],
-    datas=[('.\\icon.ico', '.')],
+    datas=datas,
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},
@@ -28,7 +32,7 @@ exe = EXE(
     a.zipfiles,
     a.datas,
     [],
-    name='No Idle Bro',
+    name='app',
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,

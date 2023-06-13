@@ -6,8 +6,12 @@ import keyboard
 import random
 from time import sleep
 import sys
-import tkinter as tk
+from tkinter import ttk
 import os
+import sv_ttk
+import tkinter
+import ctypes as ct
+import platform
 
 time_unit = None
 time_value = None
@@ -64,16 +68,30 @@ def clicked (value_inside, entry, window):
     keyboard.wait("spacebar")
     os._exit(1)
         
+def dark_title_bar(window):
+    if "window" not in platform.platform().lower(): return
+    window.update()
+    DWMWA_USE_IMMERSIVE_DARK_MODE = 20
+    set_window_attribute = ct.windll.dwmapi.DwmSetWindowAttribute
+    get_parent = ct.windll.user32.GetParent
+    hwnd = get_parent(window.winfo_id())
+    rendering_policy = DWMWA_USE_IMMERSIVE_DARK_MODE
+    value = 2
+    value = ct.c_int(value)
+    set_window_attribute(hwnd, rendering_policy, ct.byref(value), ct.sizeof(value))
+    ct.windll.shcore.SetProcessDpiAwareness(True)
 
 def uiGen ():
     time_options_list = ["Hours", "Minutes", "Seconds", "Days???"]
 
-    window = tk.Tk()
+    window = tkinter.Tk()
     window.title("No Idle Bro")
     window.wm_iconbitmap(resource_path("icon.ico"))
+    window.resizable(False, False)
+    dark_title_bar(window=window)
 
-    w = 500
-    h = 200
+    w = 550
+    h = 220
     ws = window.winfo_screenwidth()
     hs = window.winfo_screenheight()
 
@@ -83,41 +101,40 @@ def uiGen ():
     window.geometry('%dx%d+%d+%d' % (w, h, x, y))
 
 
-    value_inside = tk.StringVar(window)
+    value_inside = tkinter.StringVar(window)
     value_inside.set("Unit")
 
-    mainFrame = tk.Frame(master=window, padx=10, pady=10)
+    mainFrame = ttk.Frame(master=window, padding=10)
 
-    frame = tk.Frame(master=mainFrame)
-    frameInput = tk.Frame(master=mainFrame, borderwidth=5)
-    instruction = tk.Label(text = "Input Duration", height=5, width=12, master=frame)
-    entry = tk.Entry(fg="grey", bg="white", width=50, master=frameInput, borderwidth=3)
-    unit_menu = tk.OptionMenu(frameInput, value_inside, *time_options_list)
-    instruction_stop = tk.Label(text = "You can stop the thread by pressing the spacebar!", master = mainFrame, fg="red")
+    frame = ttk.Frame(master=mainFrame, padding=20)
+    frameInput = ttk.Frame(master=mainFrame, borderwidth=5)
+    instruction = ttk.Label(text = "Input Duration", master=frame, font=('Arial', 20))
+    entry = ttk.Entry(width=60, master=frameInput)
+    unit_menu = ttk.OptionMenu(frameInput, value_inside, "Unit  ", *time_options_list)
+   
+    instruction_stop = ttk.Label(text = "You can stop the thread by pressing the spacebar!", master = mainFrame, foreground='red', font=('Arial', 12))
 
-    button = tk.Button(
+    button = ttk.Button(
     text="Start",
-    width=10,
-    height=1,
-    bg="white",
-    fg="black",
+    width=15,
     command=lambda: clicked(value_inside.get(), int(entry.get()), window),
-    master=mainFrame
+    master=mainFrame,
     )
 
     instruction.pack()
-    entry.pack(side="left")
+    entry.pack(side="left", padx=5)
     unit_menu.pack(side="right")
     frame.pack()
     frameInput.pack()
-    button.pack()
+    button.pack(pady=5)
     instruction_stop.pack()
     mainFrame.pack()
 
+    sv_ttk.set_theme("dark")
+
+
     window.mainloop()
    
-    
-
 def keyPress():
     global time
     keys = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k']
