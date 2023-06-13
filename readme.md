@@ -18,7 +18,7 @@ is an application which spins your cursor around and presses random keys on your
 2. Install dependecies using pip
     >```pip install -r requirements.txt```
 ### Building
-- Use the app.spec file to create an exe using [Pyinstaller]('www.pyinstaller.org')
+- Use the app.spec file to create an exe using [Pyinstaller](www.pyinstaller.org)
     >```pyinstaller app.spec app.py```
 
 ## Dependencies
