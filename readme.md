@@ -22,8 +22,8 @@ is an application which spins your cursor around and presses random keys on your
     >```pyinstaller app.spec app.py```
 
 ## Dependencies
-- [keyboard]('https://pypi.org/project/keyboard/')
-- [mouse]('https://pypi.org/project/mouse/')
-- [pyinstaller]('www.pyinstaller.org')
-- [tkinter]('https://wiki.python.org/moin/TkInter')
-- [screeninfo]('https://pypi.org/project/screeninfo/')
+- [keyboard](https://pypi.org/project/keyboard/)
+- [mouse](https://pypi.org/project/mouse/)
+- [pyinstaller](www.pyinstaller.org)
+- [tkinter](https://wiki.python.org/moin/TkInter)
+- [screeninfo](https://pypi.org/project/screeninfo/)
